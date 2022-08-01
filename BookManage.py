@@ -21,21 +21,21 @@ class BookManage(object):
         for i in range(len(l)):
             self.books.append(Book(l[i][0], l[i][1], int(l[i][2]), l[i][3]))
         # 0: Lend 1: Exist
- 
+
     def Menu(self):
         self.start()
         while True:
             print("""
-                ======= Library management system =======
-        1. Query books
-        2. Add books
-        3. Borrow books
-        4. Return the book
-        5. Exit the system
+                \t============ Library management system ============
+        \t1. Query books
+        \t2. Add books
+        \t3. Borrow books
+        \t4. Return the book
+        \t5. Exit the system
         """)
- 
+
             choice = input('Please choose : ')
- 
+
             if choice == '1':
                 self.showAllBook() #Call the function to display all books
             elif choice == '2':
@@ -50,11 +50,11 @@ class BookManage(object):
             else:
                 print('Please enter the correct choice')
                 continue
- 
+
     def showAllBook(self):
         for book in self.books:
             print(book)
- 
+
     def addBook(self):
         name = input('Book name : ')
         author = input('Author : ')
@@ -76,14 +76,14 @@ class BookManage(object):
         print(ret)
         #Judge whether the book exists, if it exists, judge whether the book has been lent, if not, borrow it and change its status to 0
         if ret != None:
-            if ret.status == 0:   
+            if ret.status == 0:
                 print('The book "%s" has been lent'% name)
             else:
                 ret.status = 0
                 print('Book "%s" borrowed successfully'% name)
         else:
             print('The book "%s" does not exist'% name)
- 
+
     def returnBook(self):
         name = input('Returned book name : ')
         ret = self.checkBook(name)
