@@ -28,11 +28,11 @@ class BookManage(object):
         self.start()
         while True:
             print("""
-                \t===================================================
-                \t============ Library management system ============
-                \t===================================================
+                \t|===================================================|
+                \t|============ Library management system ============|
+                \t|===================================================|
                 
-        \t1. Query books
+        \t1. All books
         \t2. Add books
         \t3. Borrow books
         \t4. Return the book
@@ -96,6 +96,50 @@ class BookManage(object):
         else:
             print('The book "%s" does not exist'% name)
             
+
+    def returnBook(self):
+        name = input('Returned book name : ')
+        ret = self.checkBook(name)
+
+        if ret != None:
+            if ret.status == 0:
+                ret.status = 1
+                print('Book "%s" returned successfully'% name)
+                self.replacetext(str(name+','+self.searchAuthor(name)+',0'), str(name+','+self.searchAuthor(name)+',1'))
+                print(ret)
+            else:
+                print('The book "%s" has not been lent'% name)
+        else:
+            print('The book "%s" does not exist'% name)
+    
+    def searchLocation(self):
+        name = input('Book name : ')
+        for i in self.books:
+            if name == i.name:
+                print('Location the book '+name+' is '+ i.bookindex)
+                break
+        else:
+            print('the book "%s" does not exist'% name)
+            
+    def searchInLine(self, string): 
+        indx = 0      
+        for line in self.f:
+            indx += 1
+            
+            if string in line:
+                return indx
+                
+    def searchAuthor(self, name):
+        for i in self.books:
+            if name == i.name:
+                return i.author
+            
+    def sortLacation(self):
+        location = []
+        for i in self.books:
+            location.append(i.bookindex)
+        return location
+            
     def replacetext(self, search_text, replace_text):
   
         # Opening the file in read and write mode
@@ -118,51 +162,7 @@ class BookManage(object):
     
             # Truncating the file size
             f.truncate()
-  
+
         # Return "Text replaced" string
         return "Text replaced"
-
-    def returnBook(self):
-        name = input('Returned book name : ')
-        ret = self.checkBook(name)
-
-        if ret != None:
-            if ret.status == 0:
-                ret.status = 1
-                print('Book "%s" returned successfully'% name)
-                self.replacetext(str(name+','+self.searchAuthor(name)+',0'), str(name+','+self.searchAuthor(name)+',1'))
-                print(ret)
-            else:
-                print('The book "%s" has not been lent'% name)
-        else:
-            print('The book "%s" does not exist'% name)
-    
-    def searchInLine(self, string): 
-        indx = 0      
-        for line in self.f:
-            indx += 1
-            
-            if string in line:
-                return indx
-                
-    def searchLocation(self):
-        name = input('Book name : ')
-        for i in self.books:
-            if name == i.name:
-                print('Location the book '+name+' is '+ i.bookindex)
-                break
-        else:
-            print('the book "%s" does not exist'% name)
-            
-    def searchAuthor(self, name):
-        for i in self.books:
-            if name == i.name:
-                return i.author
-            
-    def sortLacation(self):
-        location = []
-        for i in self.books:
-            location.append(i.bookindex)
-        return location
-            
     # sort book
